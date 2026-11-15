@@ -26,6 +26,7 @@ export default defineConfig({
           text: '笔记',
           items: [
             { text: '总览', link: '/notes/' },
+            { text: '《代码整洁之道》笔记', link: '/notes/clean-code' },
             { text: '写作约定', link: '/notes/writing' }
           ]
         }

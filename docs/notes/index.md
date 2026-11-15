@@ -4,6 +4,7 @@
 
 已收录：
 
+- [《代码整洁之道》阅读笔记](./clean-code.md)
 - [写作约定](./writing.md)
 
 ## 批量导入本地 Markdown

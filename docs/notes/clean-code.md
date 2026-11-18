@@ -26,6 +26,8 @@
 
 - 比如 controller manager 就是相同概念的两个不同的词，同时使用容易产生混淆
 
+
+
 ## Chapter 3: Functions
 
 **SMALL! 短小**
@@ -180,9 +182,83 @@ public class UserValidator {
 
 ## Chapter 4: Comments
 
+尽量写好代码以避免加注释！
+
+**GOOD COMMENTS 好注释**
+
+- 必要的 TODO 内容
+
 
 
 ## Chapter 5: Formatting
+
+**VERTICAL FORMATTING 垂直格式**
+
+- 评估一个项目的时候可以从平局文件行数去看一下【TODO 放图】
+  ![](/img/5_2fig_martin.BKHjuRt5.png)
+
+**Vertical Distance 垂直距离**
+
+- 类属性集中声明在类的顶部/底部，避免放在中间
+- 相关函数尽可能放在一起，调用者尽可能放在被调用者上面
+- 概念相关的函数应该放在一起，不一定是调用关系，比如重载的函数
+- 像报纸文章一样，按照层次从高到低的方式罗列函数，重要顶层函数放在上面，底层细节函数放在下面
+
+```java
+// 5-5 WikiPageResponder.java
+public class WikiPageResponder implements SecureResponder {
+  protected WikiPage page;
+  protected PageData pageData;
+  protected String pageTitle;
+  protected Request request;
+  protected PageCrawler crawler;
+
+  public Response makeResponse(FitNesseContext context, Request request)
+    throws Exception {
+    String pageName = getPageNameOrDefault(request, “FrontPage”);
+    loadPage(pageName, context);
+    if (page == null)
+      return notFoundResponse(context, request);
+    else
+      return makePageResponse(context);
+  }
+
+  private String getPageNameOrDefault(Request request, String defaultPageName)
+  {
+    String pageName = request.getResource();
+    if (StringUtil.isBlank(pageName))
+      pageName = defaultPageName;
+
+    return pageName;
+  }
+
+  protected void loadPage(String resource, FitNesseContext context)
+    throws Exception {
+    WikiPagePath path = PathParser.parse(resource);
+    crawler = context.root.getPageCrawler();
+    crawler.setDeadEndStrategy(new VirtualEnabledPageCrawler());
+    page = crawler.getPage(context.root, path);
+    if (page != null)
+      pageData = page.getData();
+  }
+
+  private Response notFoundResponse(FitNesseContext context, Request request)
+    throws Exception {
+    return new NotFoundResponder().makeResponse(context, request);
+  }
+
+  private SimpleResponse makePageResponse(FitNesseContext context)
+    throws Exception {
+    pageTitle = PathParser.render(crawler.getFullPath(page));
+    String html = makeHtml(context);
+
+    SimpleResponse response = new SimpleResponse();
+    response.setMaxAge(0);
+    response.setContent(html);
+    return response;
+  }
+…
+```
 
 
 

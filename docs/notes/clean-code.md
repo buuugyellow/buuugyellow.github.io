@@ -195,7 +195,7 @@ public class UserValidator {
 **VERTICAL FORMATTING 垂直格式**
 
 - 评估一个项目的时候可以从平局文件行数去看一下【TODO 放图】
-  ![](/img/5_2fig_martin.BKHjuRt5.png)
+  ![](/img/5_2fig_martin.BKHjuRt5.jpg)
 
 **Vertical Distance 垂直距离**
 
